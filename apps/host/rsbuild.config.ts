@@ -1,37 +1,34 @@
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
+import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
+import { defineConfig } from "@rsbuild/core";
+import { pluginVue } from "@rsbuild/plugin-vue";
 import tailwindcss from "tailwindcss";
-import autoprefixer from "autoprefixer";
-import { federation } from "@module-federation/vite";
-import path from "path";
 
 export default defineConfig({
   plugins: [
-    vue(),
-    federation({
+    pluginVue(),
+    pluginModuleFederation({
       name: "amf_host",
       shared: {
         vue: {
-          // @ts-expect-error 有这个参数
+          eager: true,
           import: "vue",
-          singleton: true,
+          shareKey: "vue",
           shareScope: "default",
+          singleton: true,
         },
       },
-      exposes: {},
     }),
   ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+  output: {
+    distPath: {
+      root: "../../dist/host-app",
     },
   },
-  build: {
-    target: "esnext",
-    outDir: "../../dist/app-host",
+  html: {
+    title: "Admin MF",
   },
   server: {
-    port: 5001,
+    port: 5000,
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
@@ -39,9 +36,11 @@ export default defineConfig({
         "X-Requested-With, content-type, Authorization",
     },
   },
-  css: {
+  tools: {
     postcss: {
-      plugins: [tailwindcss, autoprefixer],
+      postcssOptions: {
+        plugins: [tailwindcss],
+      },
     },
   },
 });

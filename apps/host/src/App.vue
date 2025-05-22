@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { Component, onMounted, shallowRef } from 'vue';
-import { loadRemote } from '@module-federation/runtime';
+  import { Component, onMounted, shallowRef } from 'vue';
+  import { loadRemote } from '@module-federation/runtime';
 
-const component = shallowRef(null);
+  const component = shallowRef(null);
 
-onMounted(async () => {
-  loadRemote<{ default: Component }>('amf_template/TestPage').then(res => {
-    component.value = res?.default;
-  })
-})
-
+  onMounted(async () => {
+    loadRemote<{ default: Component }>('amf_template/TestPage').then((res) => {
+      component.value = res?.default;
+    });
+  });
 </script>
 
 <template>

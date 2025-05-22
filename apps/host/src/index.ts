@@ -4,16 +4,15 @@ import App from "./App.vue";
 import { init } from "@module-federation/runtime";
 
 init({
-  name: "amf",
+  name: "amf_host",
   remotes: [
     {
       name: "amf_template",
       // mf-manifest.json 是在 Module federation 新版构建工具中生成的文件类型，对比 remoteEntry 提供了更丰富的功能
       // 预加载功能依赖于使用 mf-manifest.json 文件类型
-      entry: "http://localhost:5002/remoteEntry.js",
-      type: "module",
+      entry: "http://localhost:5001/remoteEntry.js",
     },
   ],
 });
 
-createApp(App).mount("#app");
+createApp(App).mount("#root");

@@ -3,14 +3,23 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm run --filter @amf/app-* --parallel dev",
-    "build": "pnpm run --filter @amf/app-* --parallel build"
+    "start": "pnpm run --filter @amf/app-* --parallel start",
+    "dev": "pnpm run --filter @amf/app-* --parallel start",
+    "build": "pnpm run --filter @amf/app-* --parallel build",
+    "lint": "eslint --fix ."
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",
     "@types/node": "^22.15.21",
     "eslint": "^9.27.0",
-    "typescript": "^5.8.3"
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.0",
+    "eslint-plugin-vue": "^10.1.0",
+    "globals": "^16.1.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1",
+    "vue-eslint-parser": "^10.1.3"
   },
   "engines": {
     "node": ">=20",
