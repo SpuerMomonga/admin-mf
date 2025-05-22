@@ -27,6 +27,7 @@ export default tsEslint.config(
     },
     rules: {
       indent: 'off',
+      'vue/multi-word-component-names': 'off',
     },
   },
   eslintPluginPrettierRecommended,

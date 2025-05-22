@@ -44,6 +44,9 @@ importers:
 
   apps/host:
     dependencies:
+      '@amf/store':
+        specifier: workspace:*
+        version: link:../../packages/store
       '@module-federation/runtime':
         specifier: ^0.14.0
         version: 0.14.0
@@ -78,6 +81,9 @@ importers:
       vue:
         specifier: ^3.5.14
         version: 3.5.14(typescript@5.8.3)
+      vue-router:
+        specifier: ^4.5.1
+        version: 4.5.1(vue@3.5.14(typescript@5.8.3))
     devDependencies:
       '@module-federation/rsbuild-plugin':
         specifier: ^0.14.0
@@ -91,6 +97,15 @@ importers:
       tailwindcss:
         specifier: ^3.4.17
         version: 3.4.17
+
+  packages/store:
+    dependencies:
+      pinia:
+        specifier: ^3.0.2
+        version: 3.0.2(typescript@5.8.3)(vue@3.5.14(typescript@5.8.3))
+      vue:
+        specifier: ^3.5.14
+        version: 3.5.14(typescript@5.8.3)
 
 packages:
 

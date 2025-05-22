@@ -1,18 +1,22 @@
-import { createApp } from "vue";
-import "./index.css";
-import App from "./App.vue";
-import { init } from "@module-federation/runtime";
+import { createApp } from 'vue';
+import './index.css';
+import App from './App.vue';
+import { setupStore } from '@amf/store';
+import router, { setupRouter } from './router';
+import { setupRemote } from './remote';
 
-init({
-  name: "amf_host",
-  remotes: [
-    {
-      name: "amf_template",
-      // mf-manifest.json 是在 Module federation 新版构建工具中生成的文件类型，对比 remoteEntry 提供了更丰富的功能
-      // 预加载功能依赖于使用 mf-manifest.json 文件类型
-      entry: "http://localhost:5001/remoteEntry.js",
-    },
-  ],
-});
+async function bootstrap() {
+  const app = createApp(App);
 
-createApp(App).mount("#root");
+  setupStore(app);
+
+  setupRemote();
+
+  setupRouter(app);
+
+  await router.isReady();
+
+  app.mount('#root');
+}
+
+bootstrap();

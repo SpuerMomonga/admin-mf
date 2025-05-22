@@ -1,20 +1,11 @@
 <script setup lang="ts">
-  import { Component, onMounted, shallowRef } from 'vue';
-  import { loadRemote } from '@module-federation/runtime';
-
-  const component = shallowRef(null);
-
-  onMounted(async () => {
-    loadRemote<{ default: Component }>('amf_template/TestPage').then((res) => {
-      component.value = res?.default;
-    });
-  });
+  import { dateZhCN, NConfigProvider, zhCN } from 'naive-ui';
 </script>
 
 <template>
-  <div class="h-12 w-12">
-    <component :is="component" />
-  </div>
+  <NConfigProvider :locale="zhCN" :date-locale="dateZhCN">
+    <RouterView />
+  </NConfigProvider>
 </template>
 
 <style scoped></style>

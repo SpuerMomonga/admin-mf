@@ -1,19 +1,25 @@
-import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
-import { defineConfig } from "@rsbuild/core";
-import { pluginVue } from "@rsbuild/plugin-vue";
-import tailwindcss from "tailwindcss";
+import { pluginModuleFederation } from '@module-federation/rsbuild-plugin';
+import { defineConfig } from '@rsbuild/core';
+import { pluginVue } from '@rsbuild/plugin-vue';
+import tailwindcss from 'tailwindcss';
 
 export default defineConfig({
   plugins: [
     pluginVue(),
     pluginModuleFederation({
-      name: "amf_host",
+      name: 'amf_host',
       shared: {
         vue: {
           eager: true,
-          import: "vue",
-          shareKey: "vue",
-          shareScope: "default",
+          import: 'vue',
+          shareKey: 'vue',
+          shareScope: 'default',
+          singleton: true,
+        },
+        'vue-router': {
+          import: 'vue-router',
+          shareKey: 'vue-router',
+          shareScope: 'default',
           singleton: true,
         },
       },
@@ -21,19 +27,18 @@ export default defineConfig({
   ],
   output: {
     distPath: {
-      root: "../../dist/host-app",
+      root: '../../dist/host-app',
     },
   },
   html: {
-    title: "Admin MF",
+    title: 'Admin MF',
   },
   server: {
-    port: 5000,
+    port: import.meta.env.PORT,
     headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-      "Access-Control-Allow-Headers":
-        "X-Requested-With, content-type, Authorization",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
     },
   },
   tools: {

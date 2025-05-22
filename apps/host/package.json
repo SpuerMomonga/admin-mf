@@ -7,6 +7,7 @@
     "build": "rsbuild build"
   },
   "dependencies": {
+    "@amf/store": "workspace:*",
     "@module-federation/runtime": "^0.14.0",
     "naive-ui": "^2.41.0",
     "pinia": "^3.0.2",
