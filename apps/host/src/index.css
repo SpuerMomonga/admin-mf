@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #F5F5F5;
+    --foreground: #fff;
+    --primary: #0D6AFF;
+    --outline: #E9ECF1;
+    --accent: rgba(0, 0, 0, 0.8);
+    --warning: #FF4D4F;
+  }
+
+  .dark {
+    --background: #171717;
+    --foreground: #141414;
+    --outline: rgba(255, 255, 255, 0.12);
+    --accent: rgba(255, 255, 255, 0.85);
+  }
+
+  body {
+    font-family: MiSans, Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei";
+  }
+
+  html,
+  body,
+  #root {
+    @apply size-full text-accent;
+  }
+}

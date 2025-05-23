@@ -17,6 +17,7 @@ export default defineConfig({
           singleton: true,
         },
         'vue-router': {
+          eager: true,
           import: 'vue-router',
           shareKey: 'vue-router',
           shareScope: 'default',
