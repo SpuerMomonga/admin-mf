@@ -72,6 +72,7 @@ import {
   NPagination,
   NUploadDragger,
   NMenu,
+  NAvatar,
   create,
 } from 'naive-ui';
 import { App } from 'vue';
@@ -152,6 +153,7 @@ const naive = create({
     NLayoutContent,
     NPagination,
     NPopselect,
+    NAvatar,
     NMenu,
   ],
 });

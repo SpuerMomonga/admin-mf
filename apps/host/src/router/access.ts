@@ -1,34 +1,42 @@
-import { MenuOption } from 'naive-ui';
+import { MenuOption, NIcon } from 'naive-ui';
 import { Router, RouteRecordRaw } from 'vue-router';
 import { default as cloneDeep } from 'lodash.clonedeep';
+import { Component, h } from 'vue';
 
 async function generateAccess(router: Router, routes: RouteRecordRaw[]) {
-  routes = cloneDeep(routes);
+  const accessibleRoutes = cloneDeep(routes);
 
-  const notFound = router.getRoutes().find((r) => r.name === 'NotFound');
-
-  routes.forEach((route) => {
+  accessibleRoutes.forEach((route) => {
     router.addRoute(route);
   });
 
-  if (notFound?.name) {
-    router.removeRoute(notFound.name!);
-  }
+  const accessibleMenus = generateMenus(router, accessibleRoutes);
 
-  // if (notFound) {
-  //   // router.addRoute(notFound);
-  // }
-
-  console.log(router.getRoutes());
-  generateMenus(routes);
+  return { accessibleMenus, accessibleRoutes };
 }
 
-function generateMenus(routes: RouteRecordRaw[]): MenuOption[] {
-  // routes.map(item => {
-  //   const {meta,} = item;
-  //   return {}
-  // })
-  return [];
+function renderIcon(icon: Component) {
+  return () => h(NIcon, null, { default: () => h(icon) });
+}
+
+function generateMenus(router: Router, routes: RouteRecordRaw[]): MenuOption[] {
+  const finalRoutesMap: { [key: string]: string } = Object.fromEntries(
+    router.getRoutes().map(({ name, path }) => [name, path]),
+  );
+
+  const mapTree = (routes: RouteRecordRaw[]): MenuOption[] => {
+    return routes.map<MenuOption>((route) => {
+      const { name, meta, children } = route;
+      return {
+        label: meta?.title ?? name,
+        icon: meta?.icon ? renderIcon(meta?.icon) : undefined,
+        key: finalRoutesMap[name as string],
+        children: children?.length ? mapTree(children) : undefined,
+      };
+    });
+  };
+
+  return mapTree(routes);
 }
 
 export { generateAccess };

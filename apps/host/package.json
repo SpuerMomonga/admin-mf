@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@amf/stores": "workspace:*",
+    "@amf/icons": "workspace:*",
     "@module-federation/runtime": "^0.14.0",
     "lodash.clonedeep": "^4.5.0",
     "naive-ui": "^2.41.0",

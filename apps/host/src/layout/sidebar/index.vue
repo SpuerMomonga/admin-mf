@@ -1,92 +1,51 @@
 <script setup lang="ts">
-  import { MenuOption } from 'naive-ui';
-  import { ref } from 'vue';
+  import { usePreferencesStore, useAccessStore } from '@amf/stores';
+  import { CollapsedOff, CollapsedOn } from '@amf/icons';
 
-  const collapsed = ref(true);
+  const preferencesStore = usePreferencesStore();
+  const accessStore = useAccessStore();
 
-  const menuOptions: MenuOption[] = [
-    {
-      label: '且听风吟',
-      key: 'hear-the-wind-sing',
-      href: 'https://baike.baidu.com/item/%E4%B8%94%E5%90%AC%E9%A3%8E%E5%90%9F/3199',
-    },
-    {
-      label: '1973年的弹珠玩具',
-      key: 'pinball-1973',
-      disabled: true,
-      children: [
-        {
-          label: '鼠',
-          key: 'rat',
-        },
-      ],
-    },
-    {
-      label: '寻羊冒险记',
-      key: 'a-wild-sheep-chase',
-      disabled: true,
-    },
-    {
-      label: '舞，舞，舞',
-      key: 'dance-dance-dance',
-      children: [
-        {
-          type: 'group',
-          label: '人物',
-          key: 'people',
-          children: [
-            {
-              label: '叙事者',
-              key: 'narrator',
-            },
-            {
-              label: '羊男',
-              key: 'sheep-man',
-            },
-          ],
-        },
-        {
-          label: '饮品',
-          key: 'beverage',
-          children: [
-            {
-              label: '威士忌',
-              key: 'whisky',
-              href: 'https://baike.baidu.com/item/%E5%A8%81%E5%A3%AB%E5%BF%8C%E9%85%92/2959816?fromtitle=%E5%A8%81%E5%A3%AB%E5%BF%8C&fromid=573&fr=aladdin',
-            },
-          ],
-        },
-        {
-          label: '食物',
-          key: 'food',
-          children: [
-            {
-              label: '三明治',
-              key: 'sandwich',
-            },
-          ],
-        },
-        {
-          label: '过去增多，未来减少',
-          key: 'the-past-increases-the-future-recedes',
-        },
-      ],
-    },
-  ];
+  function toggleCollapsed() {
+    preferencesStore.setCollapsed(!preferencesStore.collapsed);
+  }
 </script>
 
 <template>
   <NLayoutSider
     collapse-mode="width"
-    :collapsed="collapsed"
+    :collapsed="preferencesStore.collapsed"
     :collapsed-width="64"
     :width="220"
     :native-scrollbar="false"
   >
     <div class="w-full mb-14">
-      <n-menu :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22" :options="menuOptions" />
+      <n-menu
+        :indent="12"
+        :collapsed="preferencesStore.collapsed"
+        :collapsed-width="64"
+        :collapsed-icon-size="22"
+        :options="accessStore.accessMenus"
+      />
     </div>
-    <div class="absolute bottom-0 left-0 w-full h-16">图</div>
+    <div class="absolute bottom-0 left-0 w-full h-16 flex flex-col cursor-pointer" @click="toggleCollapsed">
+      <div className="h-px w-full bg-outline"></div>
+      <div v-if="!preferencesStore.collapsed" class="flex-auto flex items-center gap-3 px-3">
+        <NIcon :size="20">
+          <CollapsedOff />
+        </NIcon>
+        <span>收起导航</span>
+      </div>
+      <n-tooltip v-else :delay="300" placement="right" trigger="hover">
+        <template #trigger>
+          <div class="flex-auto flex items-center justify-center">
+            <NIcon :size="20">
+              <CollapsedOn />
+            </NIcon>
+          </div>
+        </template>
+        <span>展开导航</span>
+      </n-tooltip>
+    </div>
   </NLayoutSider>
 </template>
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import { useAccessStore } from '@amf/stores';
-  const accessStore = useAccessStore();
+  import { usePreferencesStore } from '@amf/stores';
+  const preferencesStore = usePreferencesStore();
 </script>
 
 <template>
-  <div>{{ accessStore.isAccessChecked }}</div>
+  <div>{{ preferencesStore.collapsed }}</div>
 </template>
 
 <style scoped></style>

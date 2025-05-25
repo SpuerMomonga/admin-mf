@@ -1,14 +1,14 @@
 import { Router } from 'vue-router';
-import { useAccessStore, useUserStore } from '@amf/stores';
-import { useAuthStore } from '@/store/auth';
+import { useAccessStore } from '@amf/stores';
+// import { useAuthStore } from '@/store/auth';
 import { accessRoutes } from './routes';
 import { generateAccess } from './access';
 
 function setupAccessGuard(router: Router) {
-  router.beforeEach(async (to, from) => {
+  router.beforeEach(async (to) => {
     const accessStore = useAccessStore();
-    const userStore = useUserStore();
-    const authStore = useAuthStore();
+    // const userStore = useUserStore();
+    // const authStore = useAuthStore();
 
     // 未登录
     if (!accessStore.token) {
@@ -21,11 +21,13 @@ function setupAccessGuard(router: Router) {
     if (accessStore.isAccessChecked) {
       return true;
     }
-    console.log(accessRoutes);
-    await generateAccess(router, accessRoutes);
-    accessStore.setIsAccessChecked(true);
 
-    console.log('是否进入');
+    // console.log(accessRoutes);
+    const { accessibleMenus, accessibleRoutes } = await generateAccess(router, accessRoutes);
+    accessStore.setIsAccessChecked(true);
+    accessStore.setAccessMenus(accessibleMenus);
+    accessStore.setAccessRoutes(accessibleRoutes);
+
     // 重新跳转
     const redirectPath = to.fullPath;
     return {
